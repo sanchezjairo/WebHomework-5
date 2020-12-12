@@ -32,7 +32,7 @@
             <a class="nav" href="/edit/ {{ plant.id }}">Edit Plant</a><br><br>
         </section>
 
-        <form action="/harvest/12345" method="POST">
+        <form action="/harvest/{{ plant._id}}" method="POST">
             <fieldset>
                 <legend>Harvested:</legend>
                 
@@ -56,9 +56,9 @@
         
         <section id="harvest-history">
             <h3>Harvest History</h3>
-            {% for new_harvest in harvest %}
+            {% for harvest in harvests %}
             <ul> 
-                <li>{{date}}: harvested {{quantity}}</li>
+                <li>{{harvest.date}}: Harvested {{harvest.quantity}}</li>
                 <href></href>
             </ul>
             </a>

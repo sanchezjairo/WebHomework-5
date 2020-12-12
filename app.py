@@ -67,7 +67,7 @@ def detail(plant_id):
     # plant's id.
     # HINT: This query should be on the `harvests` collection, not the `plants`
     # collection.
-    harvests = harvest_collection.find({'_id':plant_id})
+    harvests = harvest_collection.find({'plant_id':plant_id})
     print(harvests)
 
     context = {
@@ -92,7 +92,7 @@ def harvest(plant_id):
 
     # TODO: Make an `insert_one` database call to insert the object into the 
     # `harvests` collection of the database.
-    return_harvest = harvest_collection.insert_one(new_harvest)
+    harvest_collection.insert_one(new_harvest)
 
     return redirect(url_for('detail', plant_id=plant_id))
 
@@ -102,14 +102,14 @@ def edit(plant_id):
     if request.method == 'POST':
         # TODO: Make an `update_one` database call to update the plant with the
         # given id. Make sure to put the updated fields in the `$set` object.
-        update_plants = plants_collection.update_One({ set:{ '_id': plant_id} })
+        update_plants = plants_collection.update_One({'$set': { '_id': ObjectId(plant_id)}})
 
         
         return redirect(url_for('detail', plant_id=update_plants))
     else:
         # TODO: Make a `find_one` database call to get the plant object with the
         # passed-in _id.
-        plant_to_show = plants_collection.find_one({'_id': plant_id})
+        plant_to_show = plants_collection.find_one({'_id': ObjectId(plant_id)})
 
         context = {
             'plant': plant_to_show
@@ -121,11 +121,11 @@ def edit(plant_id):
 def delete(plant_id):
     # TODO: Make a `delete_one` database call to delete the plant with the given
     # id.
-    plant_delete = plants_collection.delete_one({'_id': ObjectId(plant_id)})
+    plants_collection.delete_one({'_id': ObjectId(plant_id)})
 
     # TODO: Also, make a `delete_many` database call to delete all harvests with
     # the given plant id.
-    harvest_delete_many = harvest_collection.delete_many() 
+    harvest_collection.delete_many({"_id": plant_id}) 
 
     return redirect(url_for('plants_list'))
 
