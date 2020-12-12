@@ -7,3 +7,6 @@ Jinja2
 MarkupSafe
 pymongo
 Werkzeug
+pymongo
+python-dotenv
+dnspython
